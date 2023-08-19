@@ -20,11 +20,15 @@ app.get("/notes", (req, res) => {
 });
 
 // API routes
+//this is the get route for the nptes api
 app.get('/api/notes', (req, res) => {
+  // uses the file system to parse the content of the db.json and assigns it to a constant
   const notes = JSON.parse(fs.readFileSync(path.join(__dirname, '../db/db.json'), 'utf8'));
+  // responds with the notes
   res.json(notes);
 });
 
+// Post allows us to make send the notes to the servers and add it to the file system
 app.post('/api/notes', (req, res) => {
   const newNote = req.body;
   const notes = JSON.parse(fs.readFileSync(path.join(__dirname, '../db/db.json'), 'utf8'));
@@ -33,6 +37,14 @@ app.post('/api/notes', (req, res) => {
   fs.writeFileSync(path.join(__dirname, '../db/db.json'), JSON.stringify(notes));
   res.json(newNote);
 });
+app.delete('/api/notes/:id', (req, res) => {
+  const id = req.params.id;
+  const notes = JSON.parse(fs.readFileSync(path.join(__dirname, '../db/db.json'), 'utf8'));
+  const updatedNotes = notes.filter(note => note.id !== id);
+  fs.writeFileSync(path.join(__dirname, '../db/db.json'), JSON.stringify(updatedNotes));
+  res.json({ message: 'Note deleted successfully' });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server live at http://localhost:${PORT}`);
