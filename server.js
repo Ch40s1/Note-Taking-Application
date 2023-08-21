@@ -5,7 +5,7 @@ const fs = require('fs');
 const noteData = require('./db/db.json')
 
 // make a express app and define the port used
-const PORT = process.env.port || 3000;
+const port = process.env.PORT || 3000
 const app = express();
 
 // middleware to create a safety barrier agasint injections
@@ -60,6 +60,6 @@ app.delete('/api/notes/:id', (req, res) => {
 });
 
 // listens for the server/port
-app.listen(PORT, () => {
-  console.log(`Server live at http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`Server live at http://localhost:${port}`);
 });
